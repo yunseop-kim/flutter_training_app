@@ -26,6 +26,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _name = '';
+  int _lengthOfName;
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +44,25 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.all(30.0),
+                margin: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
                 child: TextField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Enter your name...'),
                   onChanged: (String text) {
                     _name = text;
+                    setState(() {
+                      _lengthOfName = _name.length;
+                    });
                   },
                 )),
+            Container(
+              alignment: Alignment.bottomRight,
+              margin: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
+              child: Text(
+                'Length: ' + _lengthOfName.toString(),
+              ),
+            ),
             FlatButton(
               child: Text("Submit", style: TextStyle(fontSize: 15)),
               onPressed: () {
