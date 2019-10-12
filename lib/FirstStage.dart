@@ -17,7 +17,7 @@ class _FirstStageState extends State<FirstStage> {
   @override
   Widget build(BuildContext context) {
     String _name = Provider.of<UserModel>(context).name;
-    Widget nextStepBuilder() => _name != ''
+    Widget nextStepBuilder() => _name.isNotEmpty
         ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text('안녕하세요, $_name님! 다음 단계로 넘어가시겠어요?',
                 style: TextStyle(fontSize: 15)),
@@ -51,10 +51,10 @@ class _FirstStageState extends State<FirstStage> {
                         border: OutlineInputBorder(),
                         hintText: 'Enter your name...'),
                     onChanged: (String text) {
+                      Provider.of<UserModel>(context).inputName(text);
                       setState(() {
                         // _name = text;
-                        Provider.of<UserModel>(context).inputName(text);
-                        _lengthOfName = _name.length;
+                        _lengthOfName = text.length;
                       });
                     },
                   )),
