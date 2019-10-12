@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'SecondStage.dart';
 import 'FirstStage.dart';
+import 'ThirdStage.dart';
 import 'models/UserModel.dart';
 
 void main() => runApp(MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
           home: FirstStage(title: 'Flutter Training App'),
           routes: {
             "/second": (_) => new SecondStage(),
+            "/third": (_) => new ThirdStage(),
           },
         ));
   }

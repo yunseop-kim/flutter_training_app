@@ -35,10 +35,10 @@ class _MySecondStageState extends State<SecondStage> {
             RaisedButton(
               onPressed: () {
                 // Navigate back to first route when tapped.
-                Navigator.pushReplacementNamed(context, "/");
-                Provider.of<UserModel>(context).inputName('');
+                Navigator.pushReplacementNamed(context, "/third");
+                // Provider.of<UserModel>(context).inputName('');
               },
-              child: Text('Go back!'),
+              child: Text('다음'),
             ),
           ],
         )),
