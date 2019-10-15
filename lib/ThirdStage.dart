@@ -56,15 +56,14 @@ class _MyThirdStageState extends State<ThirdStage> {
                 });
               },
             ),
-            _buildResult()
-            // RaisedButton(
-            //   onPressed: () {
-            //     // Navigate back to first route when tapped.
-            //     Navigator.pushReplacementNamed(context, "/");
-            //     Provider.of<UserModel>(context).inputName('');
-            //   },
-            //   child: Text('Go back!'),
-            // ),
+            _buildResult(),
+            RaisedButton(
+              onPressed: () {
+                // Navigate back to first route when tapped.
+                Navigator.pushReplacementNamed(context, "/currency");
+              },
+              child: Text('환율 페이지'),
+            ),
           ],
         )),
       );

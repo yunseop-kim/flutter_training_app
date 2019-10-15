@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'SecondStage.dart';
 import 'FirstStage.dart';
 import 'ThirdStage.dart';
+import 'CurrencyPage.dart';
 import 'models/UserModel.dart';
 
 void main() => runApp(MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
           routes: {
             "/second": (_) => new SecondStage(),
             "/third": (_) => new ThirdStage(),
+            "/currency": (_) => new CurrencyPage(),
           },
         ));
   }
