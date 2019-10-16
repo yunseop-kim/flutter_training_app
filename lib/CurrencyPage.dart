@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import 'models/UserModel.dart';
+import 'utils/Debouncer.dart';
 
 class CurrencyPage extends StatefulWidget {
   @override
@@ -27,6 +28,7 @@ class CurrencyVO {
 class _MyCurrencyPageState extends State<CurrencyPage> {
   CurrencyVO _from = new CurrencyVO(), _to = new CurrencyVO();
   List<DropdownMenuItem<String>> _dropDownMenuItems;
+  final _debouncer = Debouncer(milliseconds: 500);
 
   @override
   void initState() {
@@ -68,45 +70,59 @@ class _MyCurrencyPageState extends State<CurrencyPage> {
         body: Center(
             child: Column(
           children: <Widget>[
-            DropdownButton(
-              value: _from.nation,
-              items: _dropDownMenuItems,
-              onChanged: (String selectedCity) {
-                setState(() {
-                  _from.nation = selectedCity;
-                  getCurrencyRate(_from, _to);
-                });
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                DropdownButton(
+                  value: _from.nation,
+                  items: _dropDownMenuItems,
+                  onChanged: (String selectedCity) {
+                    setState(() {
+                      _from.nation = selectedCity;
+                      _debouncer.run(() => getCurrencyRate(_from, _to));
+                    });
+                  },
+                ),
+                Flexible(
+                  child: TextField(
+                    controller: _from.controller,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), hintText: '금액 입력'),
+                    keyboardType: TextInputType.number,
+                    onChanged: (String val) {
+                      _from.amount = double.parse(val);
+                      _debouncer.run(() => getCurrencyRate(_from, _to));
+                    },
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              controller: _from.controller,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: '금액 입력'),
-              keyboardType: TextInputType.number,
-              onChanged: (String val) {
-                _from.amount = double.parse(val);
-                getCurrencyRate(_from, _to);
-              },
-            ),
-            DropdownButton(
-              value: _to.nation,
-              items: _dropDownMenuItems,
-              onChanged: (String selectedCity) {
-                setState(() {
-                  _to.nation = selectedCity;
-                  getCurrencyRate(_from, _to);
-                });
-              },
-            ),
-            TextField(
-              controller: _to.controller,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: '금액 입력'),
-              keyboardType: TextInputType.number,
-              onChanged: (String val) {
-                _to.amount = double.parse(val);
-                getCurrencyRate(_to, _from);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                DropdownButton(
+                  value: _to.nation,
+                  items: _dropDownMenuItems,
+                  onChanged: (String selectedCity) {
+                    setState(() {
+                      _to.nation = selectedCity;
+                      _debouncer.run(() => getCurrencyRate(_from, _to));
+                    });
+                  },
+                ),
+                Flexible(
+                  child: TextField(
+                    controller: _to.controller,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), hintText: '금액 입력'),
+                    keyboardType: TextInputType.number,
+                    onChanged: (String val) {
+                      _to.amount = double.parse(val);
+                      _debouncer.run(() => getCurrencyRate(_to, _from));
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         )),
